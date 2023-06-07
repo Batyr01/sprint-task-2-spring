@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/base.html">
 
 <div layout:fragment="siteContent">
@@ -12,7 +12,8 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Заявка от <b><span th:text="${req.userName}"></span></b></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Курс: <b><span th:text="${req.courseName}"></span></b></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Курс: <b><span th:text="${req.courseModel.name}"></span></b>
+                    </h6>
                     <p class="card-text" th:text="${req.commentary}"></p>
                     <b class="card-link" th:text="${req.phone}"></b>
                     <a th:href="@{'/details/' + ${req.id}}" class="card-link">Подробнее</a>

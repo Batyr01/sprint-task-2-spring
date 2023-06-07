@@ -1,7 +1,9 @@
 package com.projecct.sprinttask2.controller;
 
 
+import com.projecct.sprinttask2.model.CourseModel;
 import com.projecct.sprinttask2.model.RequestModel;
+import com.projecct.sprinttask2.repository.CourseRepository;
 import com.projecct.sprinttask2.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class RequestController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     @GetMapping(value = "/")
     public String indexPage(Model model){
         List<RequestModel> requestModelList = requestRepository.findAll();
@@ -29,7 +34,7 @@ public class RequestController {
 
     @GetMapping(value = "/new-requests")
     public String newRequests(Model model){
-        List<RequestModel> requestModelList = requestRepository.findAllByHandledEquals(true);
+        List<RequestModel> requestModelList = requestRepository.findAllByHandledEquals(false);
         model.addAttribute("requests", requestModelList);
         return "new-requests";
     }
@@ -37,14 +42,17 @@ public class RequestController {
 
     @GetMapping(value = "/finished-requests")
     public String finishedRequests(Model model){
-        List<RequestModel> requestModelList = requestRepository.findAllByHandledEquals(false);
+        List<RequestModel> requestModelList = requestRepository.findAllByHandledEquals(true);
         model.addAttribute("requests", requestModelList);
         return "finished-requests";
     }
 
 
     @GetMapping(value = "/add-request")
-    public String addRequestPage(){
+    public String addRequestPage(Model model){
+        List<CourseModel> courseModelList = courseRepository.findAll();
+        model.addAttribute("courses", courseModelList);
+
         return "add-request";
     }
 
@@ -52,13 +60,13 @@ public class RequestController {
     @PostMapping(value = "/add-request")
     public String addRequest(
             @RequestParam(name = "userName") String userName,
-            @RequestParam(name = "courseName") String courseName,
+            @RequestParam(name = "courseName") CourseModel courseModel,
             @RequestParam(name = "phone") String phone,
             @RequestParam(name = "commentary") String commentary
     ){
         RequestModel request = new RequestModel();
         request.setUserName(userName);
-        request.setCourseName(courseName);
+        request.setCourseModel(courseModel);
         request.setPhone(phone);
         request.setCommentary(commentary);
         request.setHandled(false);

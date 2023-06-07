@@ -17,19 +17,20 @@ public class RequestModel {
     private Long id;
 
     @Column(name = "userName")
-    String userName;
-
-    @Column(name = "courseName")
-    String courseName;
+    private String userName;
 
     @Column(name = "commentary")
-    String commentary;
+    private String commentary;
 
     @Column(name = "phone")
-    String phone;
+    private String phone;
 
     @Column(name = "handled")
-    boolean handled;
+    private boolean handled;
+
+    @ManyToOne
+    private CourseModel courseModel;
+
 
 
 
